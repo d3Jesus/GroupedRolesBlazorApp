@@ -14,6 +14,7 @@ namespace GroupedRolesBlazorApp.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
@@ -22,13 +23,15 @@ namespace GroupedRolesBlazorApp.Areas.Identity.Pages.Account
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
-            ILogger<RegisterModel> logger)
+            ILogger<RegisterModel> logger,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
+            _roleManager = roleManager;
         }
 
         /// <summary>
@@ -83,6 +86,9 @@ namespace GroupedRolesBlazorApp.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Display(Name = "User Role")]
+            public string UserRole { get; set; }
         }
 
 
@@ -90,6 +96,8 @@ namespace GroupedRolesBlazorApp.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            ViewData["Roles"] = _roleManager.Roles.ToList();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -106,9 +114,7 @@ namespace GroupedRolesBlazorApp.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, "CreateProduct");
-                    await _userManager.AddToRoleAsync(user, "UpdateProduct");
-                    await _userManager.AddToRoleAsync(user, "ReadProduct");
+                    await _userManager.AddToRoleAsync(user, Input.UserRole);
 
                     _logger.LogInformation("User created a new account with password.");
 

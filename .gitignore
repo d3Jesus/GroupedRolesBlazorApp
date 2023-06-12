@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/ProjectEvaluation/groupedrolesblazorapp.projects.v6.1
+/.vs/ProjectEvaluation/groupedrolesblazorapp.metadata.v6.1
+/.vs/GroupedRolesBlazorApp/v17/.futdcache.v2
+*.vsidx
+/.vs/GroupedRolesBlazorApp/FileContentIndex/a1e02a98-d839-434a-ab82-de8a4d98e48c.vsidx
+/.vs/GroupedRolesBlazorApp/DesignTimeBuild/.dtbcache.v2
+/.vs/GroupedRolesBlazorApp/FileContentIndex/347f7b35-f53f-48d2-8f6a-99fb9628b620.vsidx
